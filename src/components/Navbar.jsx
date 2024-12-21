@@ -3,7 +3,7 @@ import Logo from "../assets/App-Logo.png";
 
 const Navbar = () => {
   return (
-    <nav className="flex flex-col justify-between bg-purple-700 text-white py-5 px-10 sm:flex-row sm:items-center">
+    <nav className="flex flex-col justify-between bg-purple-900 text-white py-5 px-10 sm:flex-row sm:items-center">
       <div className="logo flex flex-col items-center sm:flex-row  gap-3 text-center">
         <img
           src={Logo}

@@ -30,3 +30,24 @@
 ::placeholder{
     color: #fff;
   }
+
+  /* Custom scrollbar styles */
+.left::-webkit-scrollbar {
+  width: 10px; /* Adjust the width as needed */
+  height: 8px; /* Adjust the height for horizontal scrollbar */
+}
+
+.left::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background color of the scrollbar track */
+  border-radius: 10px; /* Rounded edges */
+}
+
+.left::-webkit-scrollbar-thumb {
+  background-color: #7c3aed; /* Purple color */
+  border-radius: 10px; /* Rounded edges */
+  border: 2px solid #f1f1f1; /* Optional: adds padding around the thumb */
+}
+
+.left::-webkit-scrollbar-thumb:hover {
+  background-color: #6b21a8; /* Darker purple on hover */
+}
