@@ -23,6 +23,7 @@ function App() {
   useEffect(() => {
     if (todos.length > 0) {
       localStorage.setItem("todos", JSON.stringify(todos));
+     // let a = fetch('https://localhost:3000', method :"POST",todos);
     }
   }, [todos]);
 
@@ -32,7 +33,7 @@ function App() {
 
   const handleChange = (e) => setTodo(e.target.value);
 
-  const handleAdd = () => {
+  const handleAdd = async() => {
     setTodos([
       ...todos,
       {
@@ -43,7 +44,12 @@ function App() {
         isCompleted: false,
       },
     ]);
+
     setTodo("");
+    let post_request = await fetch("http://localhost:3000/");
+    let b = await post_request.json();
+    console.log(b);
+    console.log(todos);
   };
 
   const handleEdit = (Id) => {
@@ -91,6 +97,7 @@ function App() {
             className="w-[70%] shadow-xl p-3 rounded-md border-none outline-none bg-purple-50"
           />
           <button
+          disabled={todo.length < 5}
             type="button"
             onClick={handleAdd}
             className="bg-purple-900 text-white px-6 shadow-2xl py-2 rounded-lg font-bold transition-transform duration-300 hover:scale-105"
@@ -101,21 +108,21 @@ function App() {
       </div>
       <div className="Todos min-h-[70vh] mx-auto max-w-[75%] my-5 bg-violet-200 p-5 rounded-3xl">
         <span className="text-2xl text-purple-900 font-bold">Your Todos:</span>
-        <div className="dashboard flex gap-5 my-5 justify-center w-full">
+        {todos.length != 0 && <div className="dashboard flex gap-5 my-5 justify-center w-full">
           <button
             onClick={toggleShow}
-            className="bg-purple-900 w-1/4 text-xl text-white px-6 shadow-2xl py-2 rounded-lg font-bold transition-transform duration-300 hover:scale-105"
+            className="bg-purple-900 w-full lg:w-1/4 text-xs sm:text-xl text-white px-6 shadow-2xl py-2 rounded-xl font-bold transition-transform duration-300 hover:scale-105"
           >
             Show Finished
           </button>
           <button
             disabled={!isFinished}
             onClick={toggleShow}
-            className="bg-purple-900 w-1/4 text-xl text-white px-6 shadow-2xl py-2 rounded-lg font-bold transition-transform duration-300 hover:scale-105"
+            className="bg-purple-900 w-full lg:w-1/4 text-xs sm:text-xl text-white px-6 shadow-2xl py-2 rounded-xl font-bold transition-transform duration-300 hover:scale-105"
           >
             Show Pending
           </button>
-        </div>
+        </div>}
         {todos.length === 0 && <Default />}
         {todos
           .filter((item) => (isFinished ? item.isCompleted : !item.isCompleted))
