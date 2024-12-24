@@ -1,37 +1,37 @@
-
 .custom-checkbox {
-    appearance: none;
-    background-color: #fff;
-    border: 2px solid #d1d5db;
-    border-radius: 0.25rem;
-    width: 1.25rem;
-    height: 1.25rem;
-    cursor: pointer;
-    position: relative;
-  }
-  
-  .custom-checkbox:checked {
-    background-color: #6b46c1; /* Change this to your desired color */
-    border-color: #6b46c1;
-  }
-  
-  .custom-checkbox:checked::after {
-    content: '';
-    position: absolute;
-    top: 0.1rem;
-    left: 0.3rem;
-    width: 0.4rem;
-    height: 0.8rem;
-    border: solid white;
-    border-width: 0 0.2rem 0.2rem 0;
-    transform: rotate(45deg);
-  }
+  appearance: none;
+  background-color: #fff;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  position: relative;
+}
 
-::placeholder{
-    color: #fff;
-  }
+.custom-checkbox:checked {
+  background-color: #6b46c1; /* Change this to your desired color */
+  border-color: #6b46c1;
+}
 
-  /* Custom scrollbar styles */
+.custom-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  top: 0.1rem;
+  left: 0.3rem;
+  width: 0.4rem;
+  height: 0.8rem;
+  border: solid white;
+  border-width: 0 0.2rem 0.2rem 0;
+  transform: rotate(45deg);
+}
+
+::placeholder {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Custom scrollbar styles */
 .left::-webkit-scrollbar {
   width: 10px; /* Adjust the width as needed */
   height: 8px; /* Adjust the height for horizontal scrollbar */
@@ -51,3 +51,47 @@
 .left::-webkit-scrollbar-thumb:hover {
   background-color: #6b21a8; /* Darker purple on hover */
 }
+/* 
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+*/
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+/*
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+} */
