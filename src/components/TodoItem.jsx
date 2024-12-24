@@ -13,8 +13,6 @@ const TodoItem = ({isProfile, item, handleEdit, handleDelete, handleCheck }) => 
     }
   }, [isProfile]);
   
-  
-
   const handleClick = () => {
     setPopupOpen(!popupOpen);
   };

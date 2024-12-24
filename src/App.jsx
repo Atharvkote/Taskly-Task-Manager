@@ -14,44 +14,67 @@ function App() {
   const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const storedTodos = localStorage.getItem("todos");
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
-    }
+    FetchTodos();
+    // const storedTodos = localStorage.getItem("todos");
+    // if (storedTodos) {
+    //   setTodos(JSON.parse(storedTodos));
+    // }
   }, []);
 
-  useEffect(() => {
-    if (todos.length > 0) {
-      localStorage.setItem("todos", JSON.stringify(todos));
-     // let a = fetch('https://localhost:3000', method :"POST",todos);
+  const FetchTodos = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const fetchedTodos = await response.json();
+      setTodos(fetchedTodos);
+
+      // Store todos in local storage
+      // localStorage.setItem("todos", JSON.stringify(fetchedTodos));
+    } catch (error) {
+      console.error("Error fetching todos:", error);
     }
-  }, [todos]);
+  };
+  useEffect(() => {FetchTodos();}, [todos]);
 
   const toggleShow = () => {
     setIsFinished(!isFinished);
   };
 
   const handleChange = (e) => setTodo(e.target.value);
-
-  const handleAdd = async() => {
-    setTodos([
-      ...todos,
-      {
-        Id: uuIdv4(),
-        todo,
-        date: new Date().toDateString(),
-        time: new Date().toLocaleTimeString(),
-        isCompleted: false,
-      },
-    ]);
-
-    setTodo("");
-    let post_request = await fetch("http://localhost:3000/");
-    let b = await post_request.json();
-    console.log(b);
-    console.log(todos);
+  
+  const handleAdd = async () => {
+    const newTodo = {
+      Id: uuIdv4(),
+      todo,
+      date: new Date().toDateString(),
+      time: new Date().toLocaleTimeString(),
+      isCompleted: false,
+    };
+  
+    // Update state
+    setTodos([...todos, newTodo]);
+    setTodo(""); // Clear input
+  
+    try {
+      const response = await fetch("https://localhost:3000", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newTodo),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      console.log("Todo successfully added to the server!");
+    } catch (error) {
+      console.error("Failed to add todo:", error);
+    }
   };
-
+  
   const handleEdit = (Id) => {
     const todoToEdit = todos.find((todo) => todo.Id === Id);
     if (todoToEdit) {
@@ -71,10 +94,29 @@ function App() {
   };
 
   const handleDelete = async (Id) => {
-    const newTodos = todos.filter((item) => item.Id !== Id);
-    setTodos(newTodos);
+    try {
+      const request = await fetch("http://localhost:3000/", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Id }),
+      });
+  
+      if (!request.ok) {
+        throw new Error(`HTTP error! Status: ${request.status}`);
+      }
+  
+      const response = await request.json();
+      console.log("Delete Response:", response);
+  
+      // Update the local state by removing the deleted todo
+      setTodos((prevTodos) => prevTodos.filter((item) => item.Id !== Id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
   };
-
+  
   const handleCheck = (Id) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
