@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import reactLogo from '../../assets/react.svg'
-import viteLogo from '../../assets/vite.svg'
+import reactLogo from '../../../public/icon/react.svg'
+import viteLogo from '../../../public/icon/vite.svg'
 import '../../App.css'
 import { Link } from 'react-router-dom'
 

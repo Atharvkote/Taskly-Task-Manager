@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Edit from "../assets/Edit.svg";
 import Delete from "../assets/Delete.svg";
 import Popup from './Popup';
@@ -6,10 +6,12 @@ import Popup from './Popup';
 const TodoItem = ({isProfile, item, handleEdit, handleDelete, handleCheck }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const btn = useRef(null);
+  const checkbox = useRef(null);
 
   useEffect(() => {
     if (btn.current) {
       btn.current.style.display = isProfile ? "none" : "";
+      checkbox.current.style.display = isProfile ? "none" : "";
     }
   }, [isProfile]);
   
@@ -28,23 +30,25 @@ const TodoItem = ({isProfile, item, handleEdit, handleDelete, handleCheck }) => 
 
   return (
 
-    <>
-      <div className="relative todo flex flex-col lg:flex-row gap-4 justify-between items-center my-3 p-3 bg-purple-100 rounded-xl shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+    <div className=''>
+      <div className="relative  todo flex flex-col lg:flex-row gap-4 justify-between items-center my-3 p-3 bg-purple-100 rounded-xl shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
         <div className="left flex gap-3 pl-3 max-w-[60%] overflow-hidden">
           <input
+            ref={checkbox}
+            key={item.id}
             type="checkbox"
             checked={item.isCompleted}
-            onChange={() => handleCheck(item.Id)}
+            onChange={() => handleCheck(item.id)}
             className="custom-checkbox"
           />
-          <div onClick={handleClick} className={item.isCompleted ? "line-through opacity-70 truncate" : "flex flex-wrap truncate"}>
+          <div  onClick={handleClick} className={item.isCompleted ? "line-through opacity-70 truncate" : "flex flex-wrap truncate"}>
             <p  className="truncate cursor-pointer">{item.todo}</p>
           </div>
         </div>
         <div className="flex h-full gap-3 w-full lg:w-1/3 justify-center">
           <button
           ref={btn} 
-            onClick={() => handleEdit(item.Id)}
+            onClick={() => handleEdit(item.id)}
             className="bg-purple-900 flex justify-center gap-3 items-center py-2 w-1/2 rounded-xl font-sans font-bold text-white transition-transform text-sm duration-300 hover:scale-105"
           >
             <img
@@ -55,7 +59,7 @@ const TodoItem = ({isProfile, item, handleEdit, handleDelete, handleCheck }) => 
             Edit
           </button>
           <button
-            onClick={() => handleDelete(item.Id)}
+            onClick={() => handleDelete(item.id)}
             className="bg-purple-900 flex justify-center gap-3 items-center py-2 w-1/2 rounded-xl font-sans font-bold text-white transition-transform duration-300 hover:scale-105"
           >
             <img
@@ -81,7 +85,7 @@ const TodoItem = ({isProfile, item, handleEdit, handleDelete, handleCheck }) => 
           onClose={handleClick}
         />
       )}
-    </>
+    </div>
   );
 };
 

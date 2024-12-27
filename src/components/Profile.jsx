@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from './Navbar'
 import { IoPersonCircle } from "react-icons/io5";
 import TodoItem from './TodoItem';
 import { handleEdit, handleDelete, handleCheck } from '../functions/TodoFunctions.js';
-import Default from './Default';
+import Default from './utils/Default.jsx';
 import Edit from "../assets/Edit.svg";
 import { MdLogout } from "react-icons/md";
 import { FaInfoCircle } from "react-icons/fa";
@@ -11,15 +11,28 @@ import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [Todos, setTodos] = useState([]);
-
-  useEffect(() => {
-    const storedTodos = localStorage.getItem("todos");
-    if (storedTodos) {
-      setTodos(JSON.parse(storedTodos));
-    }
-  }, []);
-
   const [IsSetPP, setIsSetPP] = useState(false);
+
+  useEffect(() => { FetchTodos(); }, []);
+  const FetchTodos = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/");
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const fetchedTodos = await response.json();
+      setTodos(fetchedTodos);
+      console.log(todos);
+
+      // Store todos in local storage
+      // localStorage.setItem("todos", JSON.stringify(fetchedTodos));
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+  };
+
+
+
   return (
     <div>
       <Navbar />
@@ -45,22 +58,27 @@ const Profile = () => {
               </div>
             </div>
             <div className="btns flex justify-end items-end lg:items-center flex-col lg:flex-row gap-3">
-              <button
-                className="bg-purple-900 flex justify-center  gap-3 items-center px-2 py-1 lg:px-4 lg:py-2 rounded-xl font-sans font-bold text-white transition-transform text-sm duration-300 hover:scale-105"
-              >
-                <img
-                  src={Edit}
-                  className="w-5 h-5 lg:w-7 lg:h-7 filter hue-rotate-[68deg] brightness-125"
-                  alt="Edit"
-                />
-                Edit
-              </button>
+              <Link to='/edit'>
+                <button
+                  className="bg-purple-900 flex justify-center  gap-3 items-center px-2 py-1 lg:px-4 lg:py-2 rounded-xl font-sans font-bold text-white transition-transform text-sm duration-300 hover:scale-105"
+                >
+                  <img
+
+                    src={Edit}
+                    className="w-5 h-5 lg:w-7 lg:h-7 filter hue-rotate-[68deg] brightness-125"
+                    alt="Edit"
+                  />
+                  Edit
+                </button>
+              </Link>
+              <Link to='/signup'>
               <button
                 className="bg-purple-900 flex justify-center  items-center px-2 py-2 lg:px-4 lg:py-2 rounded-xl font-sans font-bold text-white transition-transform text-xs lg:text-sm duration-300 hover:scale-105"
               >
                 <MdLogout className='w-4 h-4 lg:w-7 lg:h-7 ' />
                 Log Out
               </button>
+              </Link>
               <Link to='/about'>
                 <button
                   className="bg-purple-900 flex justify-center gap-1 items-center px-2 py-2 lg:px-2 lg:py-2 rounded-full font-sans font-bold text-white transition-transform text-sm duration-300 hover:scale-105"

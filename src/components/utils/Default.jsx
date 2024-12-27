@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import NoTodos from "../assets/Default-Images-2.png";
+import NoTodos from "../../assets/Default-Images-2.png";
 
 const Default = () => {
   const Target = useRef();
