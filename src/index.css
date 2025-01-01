@@ -3,10 +3,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    /* Custom styles to override react-big-calendar defaults */
+    .rbc-day-bg{
+       @apply border-l-purple-900;
+    }
+    .rbc-calendar {
+      @apply bg-white border border-purple-900 rounded-lg shadow-md;
+    }
+    .rbc-toolbar {
+      @apply flex justify-between items-center p-4 bg-gray-100;
+    }
+    .rbc-event {
+      @apply bg-blue-500 text-white rounded-md p-1;
+    }
+
+    .rbc-toolbar button {
+      @apply bg-purple-900 text-white rounded-md p-2;
+    }
+  }
 
 *{
     margin: 0;
     padding: 0;
     /* box-sizing: border-box; */
     font-family: 'Poppins','Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+@layer utilities {
+  .hover-transform {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
 }

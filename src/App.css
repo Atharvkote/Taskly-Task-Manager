@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+
 .custom-checkbox {
   appearance: none;
   background-color: #fff;
@@ -86,12 +89,11 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-/*
 
-.card {
-  padding: 2em;
+.font-russo{
+  font-family: "Russo One", serif;
 }
 
-.read-the-docs {
-  color: #888;
-} */
+.glow{
+  filter: drop-shadow(0 0 2em #646cffaa);
+}

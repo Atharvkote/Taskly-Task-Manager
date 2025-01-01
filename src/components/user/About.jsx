@@ -1,5 +1,5 @@
-import reactLogo from '../../../public/icon/react.svg'
-import viteLogo from '../../../public/icon/vite.svg'
+import reactLogo from '/icon/react.svg'
+import viteLogo from '/icon/vite.svg'
 import '../../App.css'
 import { Link } from 'react-router-dom'
 

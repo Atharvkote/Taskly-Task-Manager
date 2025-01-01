@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import fs from "fs/promises";
 import UserRouter from './src/routes/UserRoutes.js'
 import ProfileRouter from './src/routes/ProfileRoutes.js'
+import OAuthRouter from './src/routes/OAuthsRoutes.js'
 
 const app = express();
 const port = 3000;
@@ -24,13 +25,14 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use("/profile",ProfileRouter);
 app.use("/user",UserRouter);
+app.use("/oauth",OAuthRouter);
 // Routes
 // Create a new todo - POST Request
 app.post("/", async (req, res) => {
-  const { Id, todo, date, time, isCompleted } = req.body;
+  const { username,Id, todo, date, time, isCompleted } = req.body;
 
   // Validate all fields
-  if (!Id || !todo || !date || !time || isCompleted === undefined) {
+  if (!username || !Id || !todo || !date || !time || isCompleted === undefined) {
     return res
       .status(400)
       .send("All fields (Id, todo, date, time, isCompleted) are required.");
@@ -39,6 +41,7 @@ app.post("/", async (req, res) => {
   try {
     const newTodo = new TodoSchema({
       id: Id, // Adjusted to match frontend field name
+      username,
       todo,
       date,
       time,
@@ -60,8 +63,10 @@ app.post("/", async (req, res) => {
 
 // Get all todos - GET Request
 app.get("/", async (req, res) => {
+  const username = req.query.username;
+  // console.log(username);
   try {
-    const todos = await TodoSchema.find();
+    const todos = await TodoSchema.find({username:username});
     res.send(todos);
   } catch (error) {
     res.status(500).send(`Error fetching todos: ${error.message}`);
@@ -69,17 +74,17 @@ app.get("/", async (req, res) => {
 });
 
 app.delete("/", async (req, res) => {
-  console.log(req.body);
-  const { Id } = req.body; // Extract Id from the request body
+  // console.log(req.body);
+  const { username,Id } = req.body; // Extract Id from the request body
 
-  if (!Id) {
+  if (!username || !Id) {
     console.log("Todo Id is required");
     return res.status(400).send("Todo Id is required");
   }
 
   try {
     // Use Id to query the schema's id field
-    const deletedTodo = await TodoSchema.findOneAndDelete({ id: Id });
+    const deletedTodo = await TodoSchema.findOneAndDelete({ username:username,id:Id });
 
     if (!deletedTodo) {
       console.log("Todo Id is required");
@@ -100,15 +105,16 @@ app.delete("/", async (req, res) => {
     res.status(500).send(`Error deleting todo: ${error.message}`);
   }
 });
-app.post("/edit", async (req, res) => {
-  const { Id, newTodo } = req.body; // Extract Id and newTodo from the request body
 
-  if (!Id || !newTodo) {
+app.post("/edit", async (req, res) => {
+  const { username,Id, newTodo } = req.body; // Extract Id and newTodo from the request body
+
+  if (!username || !Id || !newTodo) {
     return res.status(400).send("Id and newTodo are required");
   }
 
   try {
-    const todo = await TodoSchema.findOne({ id: Id });
+    const todo = await TodoSchema.findOne({ id: Id,username:username });
 
     if (!todo) {
       return res.status(404).send("Todo not found");
@@ -126,14 +132,14 @@ app.post("/edit", async (req, res) => {
 
 
 app.post("/check", async (req, res) => {
-  const { Id } = req.body; // Extract Id from the request body
+  const { Id,username } = req.body; // Extract Id from the request body
 
   if (!Id) {
     return res.status(400).send("Id are required");
   }
 
   try {
-    const todo = await TodoSchema.findOne({ id: Id });
+    const todo = await TodoSchema.findOne({ id: Id,username:username });
 
     if (!todo) {
       return res.status(404).send("Todo not found");
@@ -151,4 +157,13 @@ app.post("/check", async (req, res) => {
 // Start Server
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`);
+});
+
+app.get("/logout", async (req, res) => {
+  try {
+    res.redirect('/');
+  } catch (error) {
+    console.error("Error in /logout:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
 });

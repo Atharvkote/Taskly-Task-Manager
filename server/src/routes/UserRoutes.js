@@ -24,15 +24,15 @@ await fs.mkdir(path.dirname(logFilePath), { recursive: true });
 // User Login
 router.post("/login", async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
     // Check if all fields are provided
-    if (!username || !email || !password) {
+    if ( !email || !password) {
       return res.status(400).json({ success: false, message: "Missing fields" });
     }
 
     // Find user by username and email
-    const user = await UserSchema.findOne({ username, email });
+    const user = await UserSchema.findOne({ email });
     if (!user) {
       return res.status(404).json({ success: false, message: "User not found" });
     }
@@ -55,6 +55,7 @@ router.post("/login", async (req, res) => {
 
     // Respond with success
     res.json({ success: true, user: { username: user.username, email: user.email } });
+    // res.redirect("/");
   } catch (error) {
     console.error("Error in /login:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
@@ -94,6 +95,8 @@ router.post("/signup", async (req, res) => {
       date: new Date().toDateString(),
       time: new Date().toLocaleTimeString(),
       isAdmin: false,
+      email_verifed:false,
+      isOAuth:false,
     });
 
     await user.save();
@@ -113,5 +116,8 @@ router.post("/signup", async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
+
+
+
 
 export default router;

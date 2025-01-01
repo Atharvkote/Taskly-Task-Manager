@@ -2,11 +2,12 @@ import mongoose from "mongoose";
 
 const profileSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
-  name: { type: String, required: true ,default:"No-name"},
+  name: { type: String, required: true, default: "No-name" },
   date: { type: String, required: true },
-  time: { type: String, required: true },
-  bio: { type: String, required: true ,default:"No Bio Added Yet..."},
+  time: { type: Date, required: true }, // Changed to Date
+  bio: { type: String, required: true, default: "No Bio Added Yet..." },
+  updatedAt: { type: Date }, // Added updatedAt field
 });
 
-export const ProfileSchema = mongoose.model("profile", profileSchema);
+
+export const ProfileSchema = mongoose.model("profiles", profileSchema);

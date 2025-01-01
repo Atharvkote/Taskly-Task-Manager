@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import { ProfileSchema } from "../models/ProfileSchema.js";
 import bodyParser from "body-parser";
-
 const router = express.Router();
 const app = express();
 const port = 3000;
@@ -14,54 +13,79 @@ app.use(bodyParser.json());
 // ...existing code...
 router.get("/", async (req, res) => {
   try {
-    const { username } = req.body; // Ensure it's from query params
+    const { username } = req.query; // Only fetch the username from query params
+
     if (!username) {
       return res.status(400).json({ success: false, message: "Username is required" });
     }
-    const trimmed_username = username.trim();
-    console.log("Received username:", trimmed_username); // Check the received username
+    // console.log(username);
 
-    const user = await ProfileSchema.findOne({ username: trimmed_username });
+    const user = await ProfileSchema.findOne({ username });
 
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res.json({ success: false });
     }
 
-    res.json({ success: true, user });
+    res.status(200).json({ success: true, user });
   } catch (error) {
-    console.error("Error in /profile:", error);
+    console.error("Error in /profile route:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 });
-// ...existing code...
 
+// ...existing code...
 
 // Edit Profile
 router.post("/editprofile", async (req, res) => {
   try {
-    const { username, name, bio } = req.body;
+    // console.log(req.body);
+    const { username,name, bio } = req.body;
 
-    if (!username || !name || !bio) {
+    if (!username) {
       return res.status(400).json({
         success: false,
-        message: "All fields (username, name, bio) are required",
+        message: "All fields (username) are required",
+      });
+    }
+    if (!name ) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields (name) are required",
+      });
+    }
+    if (!bio) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields ( bio) are required",
       });
     }
 
     const user = await ProfileSchema.findOneAndUpdate(
       { username },
-      { name, bio, updatedAt: new Date() }, // Include an update timestamp
-      { new: true } // Return the updated document
+      {
+        name,
+        bio,
+        updatedAt: new Date(), // Set updatedAt field
+        time: new Date(), // Set time to current date/time
+      },
+      // { new: true }
     );
 
     if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
+      const NEWuser = await ProfileSchema.create({
+        username: username,
+        name: name,
+        bio: bio,
+        date: new Date(), // Use new Date() to get the current date/time
+        updatedAt: new Date(), // Set updatedAt field to current date/time
+        time: new Date(), // Set time to current date/time
+    });
+       await NEWuser.save();
+       res.json({ success: true, NEWuser });
     }
 
-    res.json({ success: true, user });
+    // res.json({ success: true, user });
+  
   } catch (error) {
     console.error("Error in /editprofile:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
