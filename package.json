@@ -13,6 +13,7 @@
     "@copilotkit/react-core": "^1.4.7",
     "@copilotkit/react-ui": "^1.4.7",
     "@react-oauth/google": "^0.12.1",
+    "@react-spring/web": "^9.7.5",
     "@reduxjs/toolkit": "^2.5.0",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",

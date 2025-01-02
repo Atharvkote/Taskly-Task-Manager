@@ -9,13 +9,13 @@ import TodoModal from "./utils/TodoModal";
 import { v4 as uuIdv4 } from "uuid";
 import { SiTicktick } from "react-icons/si";
 import { HiMiniTrophy } from "react-icons/hi2";
-import "../App.css";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaPlus, FaBookmark } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IoIosArrowForward } from "react-icons/io";
+import "../App.css";
 
 
 function App() {
@@ -332,18 +332,21 @@ function App() {
               Show Pending
             </button>
           </div>}
-          {todos.length === 0 && <Default />}
-          {todos
-            .filter((item) => (isFinished ? item.isCompleted : !item.isCompleted))
-            .map((item) => (
-              <TodoItem
-                key={item.id}
-                item={item}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-                handleCheck={handleCheck}
-              />
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4">
+            {todos.length === 0 && <Default />}
+            {todos
+              .filter((item) => (isFinished ? item.isCompleted : !item.isCompleted))
+              .map((item) => (
+                <TodoItem
+                  key={item.id}
+                  item={item}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  handleCheck={handleCheck}
+                  className="bg-white shadow-md rounded-lg p-4"
+                />
+              ))}
+          </div>
         </div>
         {isModalOpen && (
           <TodoModal
