@@ -68,8 +68,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId="962032041111-hage6fh0c5njm4qvll4mdlnh4je05cdt.apps.googleusercontent.com">
-      <CopilotKit publicApiKey="ck_pub_40e253b706633fee56a678c88641ac1c">
+    <GoogleOAuthProvider clientId="process.env.CLIENT_ID">
+      <CopilotKit publicApiKey="process.env.API_KEY">
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <div className="">
