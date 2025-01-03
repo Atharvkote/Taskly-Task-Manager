@@ -10,11 +10,27 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@copilotkit/react-core": "^1.4.7",
+    "@copilotkit/react-ui": "^1.4.7",
+    "@react-oauth/google": "^0.12.1",
+    "@react-spring/web": "^9.7.5",
+    "@reduxjs/toolkit": "^2.5.0",
+    "dot": "^1.1.3",
+    "env": "^0.0.2",
+    "jwt-decode": "^4.0.0",
+    "moment": "^2.30.1",
+    "postprocessing": "^6.36.5",
     "react": "^18.3.1",
+    "react-big-calendar": "^1.17.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
     "react-icons": "^5.4.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.1.0",
+    "react-toastify": "^11.0.2",
     "react-transition-group": "^4.4.5",
+    "redux-persist": "^6.0.0",
+    "three": "^0.171.0",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

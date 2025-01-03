@@ -1,6 +1,9 @@
 #Node Modules 
 /node_modules
 
+#Highly confidentails File
+*.env
+
 # Logs
 logs
 *.log
