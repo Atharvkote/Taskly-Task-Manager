@@ -18,6 +18,7 @@ import GetStarted from './components/user/GetStarted.jsx';
 import Home from './components/Home.jsx';
 import About from './components/user/About.jsx';
 import Scheduler from './components/scheduler/Scheduler.jsx';
+import Prioritizer from './components/scheduler/Prioritizer.jsx';
 import App from './App.jsx';
 import './index.css';
 
@@ -59,12 +60,16 @@ const router = createBrowserRouter([
     path: '/scheduler',
     element: <Scheduler />,
   },
+  {
+    path: '/prioritizer',
+    element: <Prioritizer />,
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <GoogleOAuthProvider clientId="962032041111-hage6fh0c5njm4qvll4mdlnh4je05cdt.apps.googleusercontent.com">
-      <CopilotKit publicApiKey="<your-copilot-cloud-public-api-key>">
+      <CopilotKit publicApiKey="ck_pub_40e253b706633fee56a678c88641ac1c">
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <div className="">

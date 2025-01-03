@@ -28,9 +28,12 @@
   border-width: 0 0.2rem 0.2rem 0;
   transform: rotate(45deg);
 }
-
-::placeholder {
-  color: #fff;
+::placeholder{
+ color: #6b46c1;
+}
+.container ::placeholder {
+  color: #581c87;
+  opacity: 0.7;
   font-weight: bold;
 }
 

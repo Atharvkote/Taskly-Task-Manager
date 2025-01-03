@@ -7,6 +7,7 @@ import fs from "fs/promises";
 import UserRouter from './src/routes/UserRoutes.js'
 import ProfileRouter from './src/routes/ProfileRoutes.js'
 import OAuthRouter from './src/routes/OAuthsRoutes.js'
+import StatusRouter from './src/routes/StatusRoutes.js';
 
 const app = express();
 const port = 3000;
@@ -26,6 +27,8 @@ app.use(bodyParser.json());
 app.use("/profile",ProfileRouter);
 app.use("/user",UserRouter);
 app.use("/oauth",OAuthRouter);
+app.use("/status",StatusRouter);
+
 // Routes
 // Create a new todo - POST Request
 app.post("/", async (req, res) => {

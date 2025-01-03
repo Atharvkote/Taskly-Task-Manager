@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Log file path
-const logFilePath = path.resolve("./logs/TodoLogs.txt");
+const logFilePath = path.resolve("../logs/TodoLogs.txt");
 
 // Ensure logs directory exists
 await fs.mkdir(path.dirname(logFilePath), { recursive: true });
